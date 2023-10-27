@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../service/user.service";
 import {User} from "../../../model/dto/user";
+import {ModalService} from "../../../shared/component/modal/modal.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-sign-up',
@@ -21,7 +23,9 @@ export class SignUpComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private userService: UserService
+        private userService: UserService,
+        private modalService: ModalService,
+        private router: Router
     ) {
     }
 
@@ -49,7 +53,8 @@ export class SignUpComponent implements OnInit {
         }
 
         this.userService.insert(user).subscribe((resp: User) => {
-            console.log(resp);
+            this.modalService.showMessage(`${resp.name}, seu cadastro foi realizado com sucesso`);
+            this.router.navigate(['/sign-in']).then();
         });
     }
 

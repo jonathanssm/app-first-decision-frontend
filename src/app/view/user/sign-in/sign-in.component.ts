@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../service/user.service";
 import {UserCredential} from "../../../model/dto/user-credential";
 import {ModalService} from "../../../shared/component/modal/modal.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-sign-in',
@@ -20,7 +21,8 @@ export class SignInComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private userService: UserService,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private router: Router
     ) {
     }
 
@@ -41,6 +43,7 @@ export class SignInComponent implements OnInit {
         this.userService.login(userCredential).subscribe((resp: boolean) => {
             if (resp) {
                 this.modalService.showMessage("Login realizado com sucesso");
+                this.router.navigate(['/home']).then();
             } else {
                 this.modalService.showMessage("E-mail ou Senha incorretos");
             }
