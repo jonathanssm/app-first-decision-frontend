@@ -1,0 +1,7 @@
+<mat-form-field [style.width.%]="100" floatLabel="auto">
+  <ng-container *ngIf="label">
+    <mat-label>{{ label }}</mat-label>
+  </ng-container>
+  <input matInput [placeholder]="placeholder" [formControl]="control" [type]="type">
+  <mat-error *ngIf="control.invalid && control.touched">{{ errorMessage }}</mat-error>
+</mat-form-field>

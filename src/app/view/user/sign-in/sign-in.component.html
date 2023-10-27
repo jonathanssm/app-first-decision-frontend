@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div fxLayout="column" fxLayoutAlign="center">
+        <div fxLayout.xs="column" fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center">
+            <app-input fxFlex.xs="100%" fxFlex="30%"
+                       label="Email:"
+                       [placeholder]="'Digite seu email'"
+                       [control]="emailControl"
+                       [errorMessage]="emailErrorMessage"
+            ></app-input>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center">
+            <app-input fxFlex.xs="100%" fxFlex="30%"
+                       label="Senha:"
+                       [placeholder]="'Digite sua senha'"
+                       [control]="passwordControl"
+                       errorMessage="Senha deve ter de 6-20 caracteres"
+                       type="password"
+            ></app-input>
+        </div>
+    </div>
+
+    <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center">
+            <app-button fxFlex.xs="100%" fxFlex="10%" name="Entrar" [block]="form.invalid"
+                        (eventClick)="onSubmit()"></app-button>
+        </div>
+    </div>
+</form>

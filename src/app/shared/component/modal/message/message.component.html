@@ -1,0 +1,9 @@
+<h4 mat-dialog-title>Mensagem</h4>
+<mat-dialog-content class="mat-typography">
+    <p [innerHtml]="data.message"></p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-raised-button color="primary" (click)="emitEventConfirmation($event)"
+            cdkFocusInitial>Fechar
+    </button>
+</mat-dialog-actions>

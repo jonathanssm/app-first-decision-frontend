@@ -1,0 +1,41 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout.xs="column" fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center">
+      <app-input fxFlex.xs="100%" fxFlex="40%"
+                 label="Nome:"
+                 [placeholder]="'Digite seu Nome'"
+                 [control]="nameControl"
+                 errorMessage="Nome deve ter de 3-50 caracteres"
+      ></app-input>
+
+      <app-input fxFlex.xs="100%" fxFlex="30%"
+                 label="Email:"
+                 [placeholder]="'Digite seu email'"
+                 [control]="emailControl"
+                 [errorMessage]="emailErrorMessage"
+      ></app-input>
+
+      <app-input fxFlex.xs="100%" fxFlex="15%"
+                 label="Senha:"
+                 [placeholder]="'Digite sua senha'"
+                 [control]="passwordControl"
+                 errorMessage="Senha deve ter de 6-20 caracteres"
+                 type="password"
+      ></app-input>
+
+      <app-input fxFlex.xs="100%" fxFlex="15%"
+                 label="Confirmação de Senha:"
+                 [placeholder]="'Confirme sua senha'"
+                 [control]="passwordConfirmationControl"
+                 [errorMessage]="passwordErrorMessage"
+                 type="password"
+      ></app-input>
+    </div>
+  </div>
+
+  <div fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <app-button fxFlex.xs="100%" fxFlex="50%" name="Cadastrar" [block]="form.invalid" (eventClick)="onSubmit()"></app-button>
+    </div>
+  </div>
+</form>
