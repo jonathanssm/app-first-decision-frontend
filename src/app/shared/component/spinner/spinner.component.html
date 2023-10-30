@@ -1,0 +1,9 @@
+<ng-container *ngIf="spinnerVisible | async">
+  <div class="overlay">
+    <mat-progress-spinner
+      [diameter]="diameter"
+      [mode]="mode"
+      [color]="color"
+    ></mat-progress-spinner>
+  </div>
+</ng-container>
