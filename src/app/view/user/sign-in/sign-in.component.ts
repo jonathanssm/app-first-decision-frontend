@@ -7,77 +7,77 @@ import {Router} from "@angular/router";
 import {SpinnerService} from "../../../shared/component/spinner/spinner.service";
 
 @Component({
-    selector: 'app-sign-in',
-    templateUrl: './sign-in.component.html',
-    styleUrls: ['./sign-in.component.css']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
 
-    public form: FormGroup = new FormGroup({});
-    public emailControl: FormControl = new FormControl({});
-    public passwordControl: FormControl = new FormControl({});
+  public form: FormGroup = new FormGroup({});
+  public emailControl: FormControl = new FormControl({});
+  public passwordControl: FormControl = new FormControl({});
 
-    public emailErrorMessage: string = 'Email é obrigatório';
+  public emailErrorMessage: string = 'Email é obrigatório';
 
-    constructor(
-        private fb: FormBuilder,
-        private userService: UserService,
-        private modalService: ModalService,
-        private spinnerService: SpinnerService,
-        private router: Router
-    ) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private modalService: ModalService,
+    private spinnerService: SpinnerService,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+
+    this.form.get('email')?.valueChanges.subscribe(() => {
+      this.changeEmailErrorMessage();
+    });
+  }
+
+  onSubmit(): void {
+    const userCredential: UserCredential = {
+      email: this.form.get('email')?.value,
+      password: this.form.get('password')?.value
     }
 
-    ngOnInit(): void {
-        this.initForm();
+    this.spinnerService.showSpinner();
+    this.userService.login(userCredential).subscribe((resp: boolean) => {
+      if (resp) {
+        this.modalService.showMessage("Login realizado com sucesso");
+        this.router.navigate(['/home']).then();
+      } else {
+        this.modalService.showMessage("E-mail ou Senha incorretos");
+      }
 
-        this.form.get('email')?.valueChanges.subscribe(() => {
-            this.changeEmailErrorMessage();
-        });
+      this.spinnerService.hideSpinner();
+    });
+  }
+
+  private changeEmailErrorMessage(): void {
+    if (this.form.get('email')?.value.length > 0 && this.form.get('email')?.invalid) {
+      this.emailErrorMessage = "Email inválido";
     }
 
-    onSubmit(): void {
-        const userCredential: UserCredential = {
-            email: this.form.get('email')?.value,
-            password: this.form.get('password')?.value
-        }
-
-        this.spinnerService.showSpinner();
-        this.userService.login(userCredential).subscribe((resp: boolean) => {
-            if (resp) {
-                this.modalService.showMessage("Login realizado com sucesso");
-                this.router.navigate(['/home']).then();
-            } else {
-                this.modalService.showMessage("E-mail ou Senha incorretos");
-            }
-
-          this.spinnerService.hideSpinner();
-        });
+    if (this.form.get('email')?.value.length === 0) {
+      this.emailErrorMessage = 'Email é obrigatório';
     }
+  }
 
-    private changeEmailErrorMessage(): void {
-        if (this.form.get('email')?.value.length > 0 && this.form.get('email')?.invalid) {
-            this.emailErrorMessage = "Email inválido";
-        }
+  private initForm(): void {
+    this.emailControl = this.fb.control(
+      '', [Validators.required, Validators.email]
+    );
 
-        if (this.form.get('email')?.value.length === 0) {
-            this.emailErrorMessage = 'Email é obrigatório';
-        }
-    }
+    this.passwordControl = this.fb.control(
+      '', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]
+    );
 
-    private initForm(): void {
-        this.emailControl = this.fb.control(
-            '', [Validators.required, Validators.email]
-        );
-
-        this.passwordControl = this.fb.control(
-            '', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]
-        );
-
-        this.form = this.fb.group({
-            email: this.emailControl,
-            password: this.passwordControl
-        });
-    }
+    this.form = this.fb.group({
+      email: this.emailControl,
+      password: this.passwordControl
+    });
+  }
 
 }
