@@ -26,6 +26,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ModalService} from "./shared/component/modal/modal.service";
 import {ErrorInterceptor} from "./exception/error-interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { SpinnerComponent } from './shared/component/spinner/spinner.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         ToolbarComponent,
         InputComponent,
         ButtonComponent,
-        MessageComponent
+        MessageComponent,
+        SpinnerComponent
     ],
     imports: [
         BrowserModule,

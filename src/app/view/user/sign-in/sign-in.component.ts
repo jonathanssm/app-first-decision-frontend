@@ -4,6 +4,7 @@ import {UserService} from "../../../service/user.service";
 import {UserCredential} from "../../../model/dto/user-credential";
 import {ModalService} from "../../../shared/component/modal/modal.service";
 import {Router} from "@angular/router";
+import {SpinnerService} from "../../../shared/component/spinner/spinner.service";
 
 @Component({
     selector: 'app-sign-in',
@@ -22,6 +23,7 @@ export class SignInComponent implements OnInit {
         private fb: FormBuilder,
         private userService: UserService,
         private modalService: ModalService,
+        private spinnerService: SpinnerService,
         private router: Router
     ) {
     }
@@ -40,6 +42,7 @@ export class SignInComponent implements OnInit {
             password: this.form.get('password')?.value
         }
 
+        this.spinnerService.showSpinner();
         this.userService.login(userCredential).subscribe((resp: boolean) => {
             if (resp) {
                 this.modalService.showMessage("Login realizado com sucesso");
@@ -47,6 +50,8 @@ export class SignInComponent implements OnInit {
             } else {
                 this.modalService.showMessage("E-mail ou Senha incorretos");
             }
+
+          this.spinnerService.hideSpinner();
         });
     }
 
